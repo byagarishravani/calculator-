@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Calculator</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #e0e0e0;
+        }
+
+        .calculator {
+            background-color: #333;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            width: 320px;
+        }
+
+        #display {
+            width: 100%;
+            height: 60px;
+            background-color: #a7bbc7;
+            border: none;
+            outline: none;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            text-align: right;
+            padding: 10px;
+            color: #111;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        button {
+            padding: 18px;
+            font-size: 1.25rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background-color: #eceff1;
+            transition: background 0.1s;
+        }
+
+        button:active {
+            background-color: #cfd8dc;
+        }
+
+        button.operator {
+            background-color: #ff9800;
+            color: white;
+        }
+
+        button.operator:active {
+            background-color: #e65100;
+        }
+
+        button.clear {
+            background-color: #f44336;
+            color: white;
+            grid-column: span 2;
+        }
+
+        button.clear:active {
+            background-color: #d32f2f;
+        }
+
+        button.equal {
+            background-color: #4caf50;
+            color: white;
+            grid-column: span 2;
+        }
+
+        button.equal:active {
+            background-color: #388e3c;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="calculator">
+        <input type="text" id="display" readonly>
+        <div class="buttons">
+            <button class="clear" onclick="clearDisplay()">C</button>
+            <button class="operator" onclick="appendValue('/')">/</button>
+            <button class="operator" onclick="appendValue('*')">*</button>
+
+            <button onclick="appendValue('7')">7</button>
+            <button onclick="appendValue('8')">8</button>
+            <button onclick="appendValue('9')">9</button>
+            <button class="operator" onclick="appendValue('-')">-</button>
+
+            <button onclick="appendValue('4')">4</button>
+            <button onclick="appendValue('5')">5</button>
+            <button onclick="appendValue('6')">6</button>
+            <button class="operator" onclick="appendValue('+')">+</button>
+
+            <button onclick="appendValue('1')">1</button>
+            <button onclick="appendValue('2')">2</button>
+            <button onclick="appendValue('3')">3</button>
+            <button onclick="appendValue('.')">.</button>
+
+            <button onclick="appendValue('0')">0</button>
+            <button class="equal" onclick="calculateResult()">=</button>
+        </div>
+    </div>
+
+    <script>
+        const display = document.getElementById('display');
+
+        function appendValue(val) {
+            display.value += val;
+        }
+
+        function clearDisplay() {
+            display.value = '';
+        }
+
+        function calculateResult() {
+            try {
+                // Safeguard evaluation for basic formulas
+                if (display.value) {
+                    display.value = Function('"use strict";return (' + display.value + ')')();
+                }
+            } catch (error) {
+                display.value = 'Error';
+            }
+        }
+    </script>
+</body>
+</html>
